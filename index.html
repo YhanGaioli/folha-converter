@@ -5,45 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Conversor de Folha de Pagamento</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0f1117; font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 40px 24px; color: #e2e8f0; }
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap');
-  .container { max-width: 680px; margin: 0 auto; }
-  .header { margin-bottom: 40px; }
-  .header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-  .icon { width: 36px; height: 36px; border-radius: 10px; background: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-  h1 { font-size: 24px; font-weight: 700; }
-  .subtitle { color: #64748b; font-size: 14px; }
-  .dropzone { border: 2px dashed #252a3a; border-radius: 16px; padding: 40px 24px; text-align: center; cursor: pointer; margin-bottom: 24px; background: #181c27; transition: all 0.2s; }
-  .dropzone:hover, .dropzone.drag { border-color: #3b82f6; background: rgba(59,130,246,0.05); }
-  .dropzone .icon2 { font-size: 36px; margin-bottom: 12px; }
-  .dropzone h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .dropzone p { color: #64748b; font-size: 13px; }
-  .file-list { background: #181c27; border-radius: 12px; border: 1px solid #252a3a; margin-bottom: 24px; overflow: hidden; }
-  .file-list-header { padding: 12px 16px; border-bottom: 1px solid #252a3a; display: flex; justify-content: space-between; align-items: center; }
-  .file-list-header span { color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-  .clear-btn { background: none; border: none; color: #64748b; cursor: pointer; font-size: 12px; }
-  .file-item { display: flex; align-items: center; padding: 10px 16px; border-bottom: 1px solid #252a3a; }
-  .file-item:last-child { border-bottom: none; }
-  .file-name { flex: 1; font-size: 13px; font-family: 'DM Mono', monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .file-status { font-size: 12px; margin-right: 8px; white-space: nowrap; }
-  .status-ok { color: #22c55e; }
-  .status-loading { color: #f59e0b; }
-  .remove-btn { background: none; border: none; color: #64748b; cursor: pointer; font-size: 18px; line-height: 1; padding: 0 4px; }
-  .btn { width: 100%; padding: 14px; border-radius: 12px; border: none; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-  .btn-primary { background: #3b82f6; color: #fff; }
-  .btn-primary:hover { background: #2563eb; }
-  .btn-disabled { background: #252a3a; color: #64748b; cursor: not-allowed; }
-  .alert { margin-top: 16px; padding: 16px; border-radius: 12px; }
-  .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); }
-  .alert-success p:first-child { color: #22c55e; font-weight: 600; }
-  .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); }
-  .alert-error p:first-child { color: #ef4444; font-weight: 600; }
-  .alert p:last-child { color: #64748b; font-size: 13px; margin-top: 4px; }
-  .legend { margin-top: 32px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-  .footer { text-align: center; color: #64748b; font-size: 12px; margin-top: 24px; }
-  #fileInput { display: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f1117; font-family: 'DM Sans', sans-serif; min-height: 100vh; padding: 40px 24px; color: #e2e8f0; }
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap');
+.container { max-width: 680px; margin: 0 auto; }
+.header { margin-bottom: 40px; }
+.header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.icon { width: 36px; height: 36px; border-radius: 10px; background: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+h1 { font-size: 24px; font-weight: 700; }
+.subtitle { color: #64748b; font-size: 14px; }
+.badge-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.badge-resumo { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+.badge-extrato { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
+.dropzone { border: 2px dashed #252a3a; border-radius: 16px; padding: 40px 24px; text-align: center; cursor: pointer; margin-bottom: 24px; background: #181c27; transition: all 0.2s; }
+.dropzone:hover, .dropzone.drag { border-color: #3b82f6; background: rgba(59,130,246,0.05); }
+.dropzone .icon2 { font-size: 36px; margin-bottom: 12px; }
+.dropzone h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.dropzone p { color: #64748b; font-size: 13px; }
+.file-list { background: #181c27; border-radius: 12px; border: 1px solid #252a3a; margin-bottom: 24px; overflow: hidden; }
+.file-list-header { padding: 12px 16px; border-bottom: 1px solid #252a3a; display: flex; justify-content: space-between; align-items: center; }
+.file-list-header span { color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.clear-btn { background: none; border: none; color: #64748b; cursor: pointer; font-size: 12px; }
+.file-item { display: flex; align-items: center; padding: 10px 16px; border-bottom: 1px solid #252a3a; gap: 8px; }
+.file-item:last-child { border-bottom: none; }
+.file-name { flex: 1; font-size: 12px; font-family: 'DM Mono', monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #e2e8f0; }
+.file-tipo { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+.tipo-resumo { background: rgba(59,130,246,0.15); color: #60a5fa; }
+.tipo-extrato { background: rgba(168,85,247,0.15); color: #c084fc; }
+.tipo-lendo { background: rgba(245,158,11,0.15); color: #fbbf24; }
+.file-status { font-size: 11px; white-space: nowrap; }
+.status-ok { color: #22c55e; }
+.remove-btn { background: none; border: none; color: #64748b; cursor: pointer; font-size: 18px; line-height: 1; padding: 0 4px; }
+.btn { width: 100%; padding: 14px; border-radius: 12px; border: none; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.btn-primary { background: #3b82f6; color: #fff; }
+.btn-primary:hover { background: #2563eb; }
+.btn-disabled { background: #252a3a; color: #64748b; cursor: not-allowed; }
+.downloads { margin-top: 20px; display: flex; gap: 12px; flex-direction: column; }
+.download-card { background: #181c27; border: 1px solid #252a3a; border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; }
+.download-card .dl-icon { font-size: 24px; }
+.download-card .dl-info { flex: 1; }
+.download-card .dl-title { font-weight: 600; font-size: 14px; }
+.download-card .dl-sub { font-size: 12px; color: #64748b; margin-top: 2px; }
+.dl-btn { background: #22c55e; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.dl-btn:hover { background: #16a34a; }
+.alert { margin-top: 16px; padding: 16px; border-radius: 12px; }
+.alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); }
+.alert-error p:first-child { color: #ef4444; font-weight: 600; }
+.alert p:last-child { color: #64748b; font-size: 13px; margin-top: 4px; }
+.legend { margin-top: 32px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.footer { text-align: center; color: #64748b; font-size: 12px; margin-top: 24px; }
+#fileInput { display: none; }
 </style>
 </head>
 <body>
@@ -53,7 +66,11 @@
       <div class="icon">📊</div>
       <h1>Conversor de Folha</h1>
     </div>
-    <p class="subtitle">Faça upload dos PDFs do Domínio/Folhamatic e baixe o Excel organizado por CNPJ e centro de custo.</p>
+    <p class="subtitle">Arraste os PDFs — o sistema detecta automaticamente o tipo e gera os Excels separados.</p>
+    <div class="badge-row">
+      <span class="badge badge-resumo">📋 Resumo por CC</span>
+      <span class="badge badge-extrato">👤 Extrato por Funcionário</span>
+    </div>
   </div>
 
   <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
@@ -71,8 +88,9 @@
     <div id="fileItems"></div>
   </div>
 
-  <button class="btn btn-disabled" id="mainBtn" onclick="processar()">⬇️ Gerar Excel</button>
+  <button class="btn btn-disabled" id="mainBtn" onclick="processar()">⬇️ Gerar Excels</button>
 
+  <div id="downloads" style="display:none" class="downloads"></div>
   <div id="alertBox" style="display:none"></div>
 
   <div class="legend">
@@ -80,7 +98,7 @@
     <div class="legend-item" style="background:#fee2e2;color:#991b1b">🔴 Descontos</div>
     <div class="legend-item" style="background:#fef3c7;color:#92400e">🟡 Informativos</div>
   </div>
-  <p class="footer">Domínio Sistemas · Folhamatic · Compatible com 04/2026</p>
+  <p class="footer">Domínio Sistemas · Folhamatic · 04/2026</p>
 </div>
 
 <script>
@@ -96,43 +114,35 @@ dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.
 fileInput.addEventListener('change', e => addFiles(e.target.files));
 
 function addFiles(novos) {
-  const nomes = new Set(arquivos.map(f => f.name));
-  Array.from(novos).filter(f => f.name.toLowerCase().endsWith('.pdf') && !nomes.has(f.name)).forEach(f => arquivos.push(f));
-  renderFiles();
-  setAlert(null);
+  const nomes = new Set(arquivos.map(f => f.nome));
+  Array.from(novos).filter(f => f.name.toLowerCase().endsWith('.pdf') && !nomes.has(f.name))
+    .forEach(f => arquivos.push({ nome: f.name, file: f, tipo: null, status: null }));
+  render(); setAlert(null); setDownloads(null);
 }
 
-function clearFiles() { arquivos = []; renderFiles(); setAlert(null); }
+function clearFiles() { arquivos = []; render(); setAlert(null); setDownloads(null); }
+function removeFile(nome) { arquivos = arquivos.filter(f => f.nome !== nome); render(); }
 
-function removeFile(nome) { arquivos = arquivos.filter(f => f.name !== nome); renderFiles(); }
-
-function renderFiles() {
+function render() {
   const list = document.getElementById('fileList');
   const items = document.getElementById('fileItems');
   const count = document.getElementById('fileCount');
   const btn = document.getElementById('mainBtn');
-
   if (!arquivos.length) { list.style.display = 'none'; btn.className = 'btn btn-disabled'; return; }
-
   list.style.display = 'block';
   count.textContent = arquivos.length + ' arquivo' + (arquivos.length > 1 ? 's' : '');
   btn.className = processando ? 'btn btn-disabled' : 'btn btn-primary';
-
   items.innerHTML = arquivos.map(f => `
     <div class="file-item">
-      <span style="font-size:16px;margin-right:10px">📄</span>
-      <span class="file-name">${f.name}</span>
-      <span class="file-status" id="status-${CSS.escape(f.name)}"></span>
-      ${!processando ? `<button class="remove-btn" onclick="removeFile('${f.name}')">×</button>` : ''}
+      <span style="font-size:16px">📄</span>
+      <span class="file-name">${f.nome}</span>
+      ${f.tipo === 'lendo' ? '<span class="file-tipo tipo-lendo">⏳ detectando</span>' :
+        f.tipo === 'resumo' ? '<span class="file-tipo tipo-resumo">📋 Resumo CC</span>' :
+        f.tipo === 'extrato' ? '<span class="file-tipo tipo-extrato">👤 Extrato Func.</span>' : ''}
+      ${f.status ? `<span class="file-status status-ok">✓ ${f.status}</span>` : ''}
+      ${!processando ? `<button class="remove-btn" onclick="removeFile('${f.nome}')">×</button>` : ''}
     </div>
   `).join('');
-}
-
-function setStatus(nome, status, count) {
-  const el = document.getElementById('status-' + CSS.escape(nome));
-  if (!el) return;
-  if (status === 'ok') el.innerHTML = `<span class="status-ok">✓ ${count} reg.</span>`;
-  else if (status === 'loading') el.innerHTML = `<span class="status-loading">⏳ lendo...</span>`;
 }
 
 function setAlert(tipo, msg1, msg2) {
@@ -143,23 +153,61 @@ function setAlert(tipo, msg1, msg2) {
   box.innerHTML = `<p>${msg1}</p><p>${msg2 || ''}</p>`;
 }
 
+function setDownloads(resultado) {
+  const div = document.getElementById('downloads');
+  if (!resultado) { div.style.display = 'none'; return; }
+  div.style.display = 'flex';
+  div.innerHTML = '';
+  if (resultado.resumo) {
+    div.innerHTML += `
+      <div class="download-card">
+        <div class="dl-icon">📋</div>
+        <div class="dl-info">
+          <div class="dl-title">Resumo por Centro de Custo</div>
+          <div class="dl-sub">Proventos, Descontos e Informativos por CC</div>
+        </div>
+        <button class="dl-btn" onclick="baixar('${resultado.resumo}','resumo_folha.xlsx')">⬇️ Baixar</button>
+      </div>`;
+  }
+  if (resultado.extrato) {
+    div.innerHTML += `
+      <div class="download-card">
+        <div class="dl-icon">👤</div>
+        <div class="dl-info">
+          <div class="dl-title">Extrato por Funcionário</div>
+          <div class="dl-sub">Rubricas detalhadas de cada funcionário</div>
+        </div>
+        <button class="dl-btn" onclick="baixar('${resultado.extrato}','extrato_funcionarios.xlsx')">⬇️ Baixar</button>
+      </div>`;
+  }
+}
+
+function baixar(b64, filename) {
+  const bytes = atob(b64);
+  const arr = new Uint8Array(bytes.length);
+  for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+  const blob = new Blob([arr], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
 async function processar() {
   if (!arquivos.length || processando) return;
-  processando = true;
-  renderFiles();
+  processando = true; render();
   document.getElementById('mainBtn').textContent = '⏳ Processando...';
-  setAlert(null);
+  setAlert(null); setDownloads(null);
 
   try {
+    // Marca todos como "lendo"
+    arquivos.forEach(f => f.tipo = 'lendo'); render();
+
     const payload = { arquivos: [] };
     for (const f of arquivos) {
-      setStatus(f.name, 'loading');
-      const bytes = await f.arrayBuffer();
-      const bytes2 = new Uint8Array(bytes);
-let binary = '';
-for (let i = 0; i < bytes2.length; i++) binary += String.fromCharCode(bytes2[i]);
-const b64 = btoa(binary);
-      payload.arquivos.push({ nome: f.name, conteudo: b64 });
+      const bytes = await f.file.arrayBuffer();
+      const b64 = btoa(String.fromCharCode(...new Uint8Array(bytes)));
+      payload.arquivos.push({ nome: f.nome, conteudo: b64 });
     }
 
     const res = await fetch('/api/converter', {
@@ -173,20 +221,23 @@ const b64 = btoa(binary);
       throw new Error(err.erro || 'Erro no servidor');
     }
 
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'folha_pagamento.xlsx'; a.click();
-    URL.revokeObjectURL(url);
+    const resultado = await res.json();
 
-    arquivos.forEach(f => setStatus(f.name, 'ok', '✓'));
-    setAlert('success', '✅ folha_pagamento.xlsx baixado com sucesso!', 'Verifique sua pasta de downloads.');
+    // Atualiza tipos nos arquivos (simulado — servidor retorna os tipos)
+    arquivos.forEach(f => {
+      f.tipo = resultado.tipos?.[f.nome] || null;
+      f.status = 'ok';
+    });
+    render();
+    setDownloads(resultado);
+
   } catch(e) {
     setAlert('error', '❌ Erro', e.message);
+    arquivos.forEach(f => f.tipo = null);
   } finally {
     processando = false;
-    document.getElementById('mainBtn').textContent = '⬇️ Gerar Excel';
-    renderFiles();
+    document.getElementById('mainBtn').textContent = '⬇️ Gerar Excels';
+    render();
   }
 }
 </script>
