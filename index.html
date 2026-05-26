@@ -206,7 +206,10 @@ async function processar() {
     const payload = { arquivos: [] };
     for (const f of arquivos) {
       const bytes = await f.file.arrayBuffer();
-      const b64 = btoa(String.fromCharCode(...new Uint8Array(bytes)));
+      const arr = new Uint8Array(bytes);
+      let binary = '';
+      for (let i = 0; i < arr.length; i++) binary += String.fromCharCode(arr[i]);
+      const b64 = btoa(binary);
       payload.arquivos.push({ nome: f.nome, conteudo: b64 });
     }
 
